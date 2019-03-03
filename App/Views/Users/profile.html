@@ -1,0 +1,13 @@
+{% block body %}
+Menu:
+<a href="/users/profile">Profile</a> /
+<a href="/files/load">Load image</a> /
+<a href="/users/show">Show users</a> /
+<a href="/users/logout">Logout</a>
+<h1>Profile</h1>
+<p><strong>User name:</strong> {{ data.name }}</p>
+<p><strong>User age:</strong> {{ data.age }}</p>
+<p><strong>User comment:</strong> {{ data.comment }}</p>
+<p><strong>User photo:</strong></p>
+<img src="/uploads/{{ data.photo }}">
+{% endblock %}
