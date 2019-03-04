@@ -2,4 +2,4 @@
 vendor
 uploads
 composer.lock
-App/config.php
+config.php

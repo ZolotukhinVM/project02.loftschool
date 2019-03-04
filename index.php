@@ -1,16 +1,6 @@
 <?php
-
-/**
- * Front controller
- *
- * PHP version 7.0
- */
-
-/**
- * Composer
- */
+require './config.php';
 require './vendor/autoload.php';
-
 
 /**
  * Error and Exception handling
@@ -28,5 +18,5 @@ session_start();
 // Add the routes
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('{controller}/{action}');
-    
+
 $router->dispatch($_SERVER['QUERY_STRING']);

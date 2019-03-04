@@ -13,9 +13,15 @@ Menu:
     </tr>
     {% for user in users %}
     <tr>
-    <td>{{ user.name }}</td>
-    <td>{{ user.age }}</td>
-    <td>{{ user.status }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.age }}</td>
+        <td>
+            {% if user.age > 18 %}
+            Совершеннолетний
+            {% else %}
+            Несовершеннолетний
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>
