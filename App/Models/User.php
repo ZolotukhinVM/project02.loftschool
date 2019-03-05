@@ -21,6 +21,13 @@ class User extends \Core\Model
         return $_SESSION["id_user"] ?? NULL;
     }
 
+    public static function checkUserLogin($login)
+    {
+        $result = self::getDB()->prepare("SELECT * FROM users_tbl WHERE login  = ?");
+        $result->execute([$login]);
+        return $result->rowCount();
+    }
+
     public static function regUser()
     {
         $login = trim(strtolower($_POST["login"]));
@@ -52,7 +59,23 @@ class User extends \Core\Model
         $selectUsers = self::getDB()->query("SELECT `name`, `age` FROM `users_tbl` ORDER BY `age` $sort LIMIT 100");
         if ($selectUsers->rowCount() != 0) {
             $res = $selectUsers->fetchAll(PDO::FETCH_ASSOC);
-            return $res;
         }
+        return $res ?? null;
+    }
+
+    public static function updateUser($userId)
+    {
+        $sqlPass = "";
+        if (!empty($_POST["pass"])) {
+            $password = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+            $sqlPass = "`password` = '" . $password . "',";
+            $data[] = $password;
+        }
+        $sql = "UPDATE `users_tbl` 
+                SET " . $sqlPass . " `name` = ?, age = ?, comment = ?
+                WHERE `id` = '$userId'";
+        $updateUser = self::getDB()->prepare($sql);
+        $data = [$_POST["name"], $_POST["age"], $_POST["comment"]];
+        return $updateUser->execute($data);
     }
 }

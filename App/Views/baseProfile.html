@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+Menu:
+<a href="/users/profile">Profile</a> /
+<a href="/users/update">Update profile</a> /
+<a href="/files/load">Load image</a> /
+<a href="/users/show">Show users</a> /
+<a href="/users/logout">Logout</a>
+{{ error }}
+{% block body %}
+
+{% endblock %}
+</body>
+</html>

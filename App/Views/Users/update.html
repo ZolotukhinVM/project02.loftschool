@@ -1,17 +1,16 @@
-{% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% extends "baseProfile.html" %}
 {% block body %}
-<h1>Reg</h1>
+<h1>Update profile</h1>
 {{ message }}
-<form method="POST" action="/users/reg" enctype="multipart/form-data">
+<form method="POST" action="/users/update" enctype="multipart/form-data">
     <table>
         <tr>
-            <td><label for="login">Login:</label></td>
-            <td><input id="login" name="login" value="{{ data.login }}" required></td>
+            <td><label for="login" >Login:</label></td>
+            <td><input id="login" name="login" value="{{ data.login }}" disabled  required></td>
         </tr>
         <tr>
             <td><label for="pass">Pass:</label></td>
-            <td><input id="pass" name="pass" required></td>
+            <td><input id="pass" name="pass" placeholder="Empty if not change"></td>
         </tr>
         <tr>
             <td><label for="name">Name:</label></td>
@@ -27,10 +26,9 @@
         </tr>
         <tr>
             <td><label for="userfile">Photo:</label></td>
-            <td><input type="file" id="userfile" name="userfile" required></td>
+            <td><input type="file" id="userfile" name="userfile"></td>
         </tr>
     </table>
     <input type="submit" name="reg" value="Ok">
-    <input type="reset" value="Reset">
 </form>
 {% endblock %}

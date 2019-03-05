@@ -1,11 +1,7 @@
+{% extends "baseProfile.html" %}
 {% block body %}
-Menu:
-<a href="/users/profile">Profile</a> /
-<a href="/files/load">Load image</a> /
-<a href="/users/show">Show users</a> /
-<a href="/users/logout">Logout</a>
 <h1>Load image</h1>
-{{ data }}
+{{ message }}
 <form action="/files/load" method = "POST" enctype="multipart/form-data">
     <input type="file" name="userfile">
     <input type="submit" value="Load">

@@ -20,7 +20,7 @@ class Files extends \Core\Controller
                 $fileMessage = "File is loaded";
             }
         }
-        View::renderTemplate("Files/load.html", ["data" => $fileMessage]);
+        View::renderTemplate("Files/load.html", ["message" => $fileMessage]);
         View::renderTemplate("Files/listing.html", ["files" => File::getFiles($_SESSION["id_user"])]);
     }
 }

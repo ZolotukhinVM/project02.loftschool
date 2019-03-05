@@ -42,12 +42,26 @@ class Users extends \Core\Controller
 
     public function regAction()
     {
+        $message = "Registration data. Fields can not be empty";
         if (isset($_POST["reg"])) {
-            User::regUser();
-            header("Location: /users/profile");
-            exit;
+            if (User::checkUserLogin($_POST["login"]) == 0) {
+                User::regUser();
+                header("Location: /users/profile");
+                exit;
+            } else {
+                $message = "Login is exists. Change other login";
+            }
         }
-        View::renderTemplate("Users/reg.html");
+        View::renderTemplate("Users/reg.html", ["data"=>$_POST, "message" => $message]);
+    }
+
+    public function updateAction()
+    {
+        $message = "";
+        if (isset($_POST["reg"])) {
+            $message = (User::updateUser($_SESSION["id_user"])) ? "Update" : "Error";
+        }
+        View::renderTemplate("Users/update.html", ["data" => User::getUserInfo($_SESSION["id_user"]), "message" => $message]);
     }
 
     public function logout()
