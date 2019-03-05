@@ -25,6 +25,9 @@ class User extends \Core\Model
     {
         $login = trim(strtolower($_POST["login"]));
         $password = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+        $file = empty($_FILES["userfile"]) ? null : $_FILES["userfile"];
+        $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+        $newName = uniqid() . "-" . time() . "." . $ext;
         $sql = "INSERT INTO `users_tbl`(login, password, name, age, comment, photo) 
                 VALUES(?, ?, ?, ?, ?, ?)";
         $insertUser = self::getDB()->prepare($sql);
@@ -33,12 +36,9 @@ class User extends \Core\Model
         $insertUser->bindParam(3, $_POST["name"]);
         $insertUser->bindParam(4, $_POST["age"]);
         $insertUser->bindParam(5, $_POST["comment"]);
-        $insertUser->bindParam(6, $_FILES["userfile"]["name"]);
+        $insertUser->bindParam(6, $newName);
         $insertUser->execute();
-        if (!empty($_FILES['userfile']['tmp_name'])) {
-            $fileContent = file_get_contents($_FILES['userfile']['tmp_name']);
-            file_put_contents('./uploads/' . $_FILES['userfile']['name'], $fileContent);
-        }
+        move_uploaded_file($file["tmp_name"], './uploads/' . $newName);
         return $_SESSION["id_user"] = self::getDB()->lastInsertId();
     }
 

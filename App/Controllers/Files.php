@@ -11,10 +11,12 @@ class Files extends \Core\Controller
     {
         $fileMessage = "";
         if (isset($_POST)) {
-            if (!empty($_FILES['userfile']['tmp_name'])) {
-                $fileContent = file_get_contents($_FILES['userfile']['tmp_name']);
-                file_put_contents('./uploads/images/' . $_FILES['userfile']['name'], $fileContent);
-                File::insertFile($_SESSION["id_user"], $_FILES['userfile']['name']);
+            $file = empty($_FILES["userfile"]) ? null : $_FILES["userfile"];
+            if ($file) {
+                $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+                $newName = uniqid() . "-" . time() . "." . $ext;
+                move_uploaded_file($file["tmp_name"], './uploads/images/' . $newName);
+                File::insertFile($_SESSION["id_user"], $newName);
                 $fileMessage = "File is loaded";
             }
         }
