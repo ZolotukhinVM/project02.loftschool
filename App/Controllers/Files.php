@@ -14,13 +14,22 @@ class Files extends \Core\Controller
             $file = empty($_FILES["userfile"]) ? null : $_FILES["userfile"];
             if ($file) {
                 $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-                $newName = uniqid() . "-" . time() . "." . $ext;
-                move_uploaded_file($file["tmp_name"], './uploads/images/' . $newName);
-                File::insertFile($_SESSION["id_user"], $newName);
-                $fileMessage = "File is loaded";
+                $newFileName = uniqid() . "-" . time() . "." . $ext;
+                move_uploaded_file($file["tmp_name"], './uploads/images/' . $newFileName);
+//                File::insertFile($_SESSION["id_user"], $newName);
+                $file = new \FileTable();
+                $file->id_user = $_SESSION["id_user"];
+                $file->file = $newFileName;
+                if ($file->save()) {
+                    $fileMessage = "File is loaded";
+                } else {
+                    $fileMessage = "Error: file is not load";
+                }
             }
         }
         View::renderTemplate("Files/load.html", ["message" => $fileMessage]);
-        View::renderTemplate("Files/listing.html", ["files" => File::getFiles($_SESSION["id_user"]), "count" => File::getCountFiles($_SESSION["id_user"])]);
+        $files = \FileTable::where('id_user', $_SESSION['id_user'])->orderBy('id', 'desc');
+        $arrFiles = $files->get(['file', 'date']);
+        View::renderTemplate("Files/listing.html", ["files" => $arrFiles, "count" => $files->count()]);
     }
 }

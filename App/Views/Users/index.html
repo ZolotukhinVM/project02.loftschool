@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
-{{ error }}
-    <h1>Auth</h1>
-    <form method="POST" action="/users/auth">
+<h1>Auth</h1>
+{{ message }}
+<form method="POST" action="/users/auth">
         <table>
             <tr>
                 <td><label for="login">Login:</label></td>

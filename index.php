@@ -1,6 +1,7 @@
 <?php
-require './config.php';
 require './vendor/autoload.php';
+require './config.php';
+require './Eloquent/config.php';
 
 /**
  * Error and Exception handling
@@ -8,7 +9,6 @@ require './vendor/autoload.php';
 error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
-
 
 /**
  * Routing
