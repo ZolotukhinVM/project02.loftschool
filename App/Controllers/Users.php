@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
+//todo link /users/23
+
 use \App\Models\User;
 use \Core\View;
-use Illuminate\Support\Facades\Response;
 
 // todo: $flight = App\Flight::find(1);
 
@@ -25,7 +26,7 @@ class Users extends \Core\Controller
                     $message = "login or password is not valid";
                 }
             }
-            if (User::getAuth($_POST)) {
+            if (isset($_SESSION["id_user"])) {
                 header("Location: /users/profile");
                 exit;
             }
@@ -44,7 +45,7 @@ class Users extends \Core\Controller
             $sortUsers = "DESC";
             $sort = "asc";
         }
-        $users = \UserTable::orderBy('age', $sort)->get(['name', 'age']);
+        $users = \UserTable::with('files')->orderBy('age', $sort)->get(['id', 'login', 'name', 'age']);
         View::renderTemplate("Users/show.html", ["users" => $users, "sort" => $sort]);
     }
 
