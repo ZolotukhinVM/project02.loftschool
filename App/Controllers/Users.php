@@ -52,7 +52,7 @@ class Users extends \Core\Controller
                 $message = "Login is exists. Change other login";
             }
         }
-        View::renderTemplate("Users/reg.html", ["data"=>$_POST, "message" => $message]);
+        View::renderTemplate("Users/reg.html", ["data" => $_POST, "message" => $message]);
     }
 
     public function updateAction()
@@ -67,6 +67,7 @@ class Users extends \Core\Controller
     public function logout()
     {
         $_SESSION["id_user"] = null;
+        $_SESSION["role_user"] = null;
         header("Location: /");
     }
 }

@@ -19,7 +19,7 @@ abstract class Controller
     /**
      * Class constructor
      *
-     * @param array $route_params  Parameters from the route
+     * @param array $route_params Parameters from the route
      *
      * @return void
      */
@@ -34,7 +34,7 @@ abstract class Controller
      * filter methods on action methods. Action methods need to be named
      * with an "Action" suffix, e.g. indexAction, showAction etc.
      *
-     * @param string $name  Method name
+     * @param string $name Method name
      * @param array $args Arguments passed to the method
      *
      * @return void

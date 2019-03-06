@@ -21,6 +21,6 @@ class Files extends \Core\Controller
             }
         }
         View::renderTemplate("Files/load.html", ["message" => $fileMessage]);
-        View::renderTemplate("Files/listing.html", ["files" => File::getFiles($_SESSION["id_user"])]);
+        View::renderTemplate("Files/listing.html", ["files" => File::getFiles($_SESSION["id_user"]), "count" => File::getCountFiles($_SESSION["id_user"])]);
     }
 }

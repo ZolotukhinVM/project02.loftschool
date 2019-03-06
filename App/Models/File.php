@@ -19,4 +19,9 @@ class File extends \Core\Model
             return $res;
         }
     }
+
+    public static function getCountFiles($userId)
+    {
+        return self::getDB()->query("SELECT COUNT(*) FROM files_tbl WHERE id_user = '$userId'")->fetchColumn();
+    }
 }

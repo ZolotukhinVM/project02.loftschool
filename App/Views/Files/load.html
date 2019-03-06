@@ -3,7 +3,7 @@
 <h1>Load image</h1>
 {{ message }}
 <form action="/files/load" method = "POST" enctype="multipart/form-data">
-    <input type="file" name="userfile">
+    <input type="file" name="userfile" required>
     <input type="submit" value="Load">
 </form>
 {% endblock %}

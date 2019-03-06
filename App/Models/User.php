@@ -9,13 +9,15 @@ class User extends \Core\Model
 
     public static function getAuth($arrPost)
     {
-        $sql = "SELECT `id`, `password` FROM `users_tbl` 
+        $sql = "SELECT `id`, `password`, `role` FROM `users_tbl` 
                             WHERE `login` = '" . $arrPost['login'] . "'";
         $stmt = self::getDB()->query($sql);
         if ($stmt->rowCount() == 1) {
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             if (password_verify($arrPost["pass"], $res["password"])) {
                 $_SESSION["id_user"] = $res['id'];
+//                $_SESSION["role_user"] = $res['role'];
+                $_SESSION["role_user"] = ($res['role'] == "A") ? "A" : null;
             }
         }
         return $_SESSION["id_user"] ?? NULL;
@@ -71,11 +73,24 @@ class User extends \Core\Model
             $sqlPass = "`password` = '" . $password . "',";
             $data[] = $password;
         }
+        $file = empty($_FILES["userfile"]["name"]) ? null : $_FILES["userfile"];
+        if ($file) {
+//            var_dump($file);
+//            $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+//            $newName = uniqid() . "-" . time() . "." . $ext;
+            $arrUserInfo = self::getUserInfo($userId);
+//            move_uploaded_file($file['tmp_name'], './uploads/' . $arrUserInfo['photo']);
+        }
         $sql = "UPDATE `users_tbl` 
                 SET " . $sqlPass . " `name` = ?, age = ?, comment = ?
                 WHERE `id` = '$userId'";
         $updateUser = self::getDB()->prepare($sql);
         $data = [$_POST["name"], $_POST["age"], $_POST["comment"]];
         return $updateUser->execute($data);
+    }
+
+    public static function isAdmin()
+    {
+        return $_SESSION["role_user"];
     }
 }
