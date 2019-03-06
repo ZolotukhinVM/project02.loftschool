@@ -12,6 +12,7 @@ class Users extends \Core\Controller
 {
     public function authAction()
     {
+        $message = "";
         $tmpl = 'Users/index.html';
         if ($_POST) {
 //          todo: fetch one row
@@ -87,14 +88,22 @@ class Users extends \Core\Controller
     {
         $message = "";
         if (isset($_POST["reg"])) {
-//          todo: how to do update pass and photo with ORM
+            $file = $_FILES["userfile"];
             $user = \UserTable::find($_SESSION["id_user"]);
+            if (!empty($_POST["pass"])) {
+                $user->password = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+            }
+            if (!empty($file["name"])) {
+                $newFileName = uniqid() . "-" . time() . "." . strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+                move_uploaded_file($file["tmp_name"], "./uploads/" . $newFileName);
+                $user->photo = $newFileName;
+            }
             $user->name = htmlentities(strip_tags($_POST["name"]), ENT_QUOTES);
             $user->age = htmlentities(strip_tags($_POST["age"]), ENT_QUOTES);
             $user->comment = htmlentities(strip_tags($_POST["comment"]), ENT_QUOTES);
             $message = ($user->save()) ? "Update" : "Error";
         }
-        View::renderTemplate("Users/update.html", ["data" => User::getUserInfo($_SESSION["id_user"]), "message" => $message]);
+        View::renderTemplate("Users/update.html", ["data" => \UserTable::find($_SESSION['id_user']), "message" => $message]);
     }
 
     public function logout()
