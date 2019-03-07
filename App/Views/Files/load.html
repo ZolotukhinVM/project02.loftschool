@@ -2,8 +2,24 @@
 {% block body %}
 <h1>Load image</h1>
 {{ message }}
-<form action="/files/load" method = "POST" enctype="multipart/form-data">
+<form action="/files/load" method="POST" enctype="multipart/form-data">
     <input type="file" name="userfile" required>
     <input type="submit" value="Load">
 </form>
+
+{% if files|length != 0 %}
+<h1>Listing image ({{ files|length }})</h1>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Date</th>
+        <th>File</th>
+    </tr>
+    {% for myfile in files %}
+    <tr>
+        <td>{{ myfile.date }}</td>
+        <td><a href="../uploads/images/{{ myfile.file }}" target="_blank">Link</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 {% endblock %}

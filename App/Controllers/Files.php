@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 //use \App\Models\File;
 //use \App\Models\User;
+use \App\Models\FileTable;
 use \Core\View;
 
 class Files extends \Core\Controller
@@ -17,8 +18,9 @@ class Files extends \Core\Controller
                 $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
                 $newFileName = uniqid() . "-" . time() . "." . $ext;
                 move_uploaded_file($file["tmp_name"], './uploads/images/' . $newFileName);
-//                File::insertFile($_SESSION["id_user"], $newName);
-                $file = new \FileTable();
+                //File::insertFile($_SESSION["id_user"], $newName);
+                $file = new FileTable();
+                //todo: ruden Это вообще шедевр
                 $file->id_user = $_SESSION["id_user"];
                 $file->file = $newFileName;
                 if ($file->save()) {
@@ -28,9 +30,7 @@ class Files extends \Core\Controller
                 }
             }
         }
-        View::renderTemplate("Files/load.html", ["message" => $fileMessage]);
-        $files = \FileTable::where('id_user', $_SESSION['id_user'])->orderBy('id', 'desc');
-        $arrFiles = $files->get(['file', 'date']);
-        View::renderTemplate("Files/listing.html", ["files" => $arrFiles, "count" => $files->count()]);
+        $arrFiles = FileTable::where('id_user', $_SESSION['id_user'])->orderBy('id', 'desc')->get(['file', 'date']);
+        View::renderTemplate("Files/load.html", ["files" => $arrFiles, "message" => $fileMessage]);
     }
 }
