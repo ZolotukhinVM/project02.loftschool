@@ -10,6 +10,8 @@ namespace Core;
 abstract class Controller
 {
 
+    protected $view;
+
     /**
      * Parameters from the matched route
      * @var array
@@ -26,6 +28,19 @@ abstract class Controller
     public function __construct($route_params)
     {
         $this->route_params = $route_params;
+        $this->view = new View();
+    }
+
+    protected function render($template, $data = [])
+    {
+        $this->view->renderTemplate($template, $data);
+        return true;
+    }
+
+    protected function redirect($url)
+    {
+        header("Location: " . $url);
+        exit;
     }
 
     /**

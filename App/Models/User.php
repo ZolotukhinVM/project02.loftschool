@@ -2,25 +2,16 @@
 
 namespace App\Models;
 
-use PDO;
-
 class User extends \Core\Model
 {
-
-    public static function getAuth($arrPost)
+    public static function getUsers($sort = "ASC")
     {
-        $sql = "SELECT `id`, `password`, `role` FROM `users_tbl` 
-                            WHERE `login` = '" . $arrPost['login'] . "'";
-        $stmt = self::getDB()->query($sql);
-        if ($stmt->rowCount() == 1) {
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (password_verify($arrPost["pass"], $res["password"])) {
-                $_SESSION["id_user"] = $res['id'];
-//                $_SESSION["role_user"] = $res['role'];
-                $_SESSION["role_user"] = ($res['role'] == "A") ? "A" : null;
-            }
-        }
-        return $_SESSION["id_user"] ?? NULL;
+        return UserTable::with('files')->orderBy('age', $sort)->get(['id', 'login', 'name', 'age']);
+    }
+
+    public static function getUserByLogin($login)
+    {
+       return UserTable::where('login', $login)->first();
     }
 
     public static function checkUserLogin($login)
@@ -30,6 +21,7 @@ class User extends \Core\Model
         return $result->rowCount();
     }
 
+/*
     public static function regUser()
     {
         $login = trim(strtolower($_POST["login"]));
@@ -54,15 +46,6 @@ class User extends \Core\Model
     public static function getUserInfo($userId)
     {
         return self::getDB()->query("SELECT * FROM `users_tbl` WHERE `id` = '" . $userId . "'")->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public static function getUsers($sort = "ASC")
-    {
-        $selectUsers = self::getDB()->query("SELECT `name`, `age` FROM `users_tbl` ORDER BY `age` $sort LIMIT 100");
-        if ($selectUsers->rowCount() != 0) {
-            $res = $selectUsers->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return $res ?? null;
     }
 
     public static function updateUser($userId)
@@ -93,4 +76,5 @@ class User extends \Core\Model
     {
         return $_SESSION["role_user"];
     }
+*/
 }

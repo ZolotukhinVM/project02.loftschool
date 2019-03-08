@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-use PDO;
-
 class File extends \Core\Model
 {
+    public static function getUserFiles($userId)
+    {
+        return FileTable::where('id_user', $userId)->orderBy('id', 'desc')->get(['file', 'date']);
+    }
+
+    /*
     public static function insertFile($userId, $filename)
     {
         self::getDB()->exec("INSERT INTO `files_tbl` (id_user, `file`) VALUES ('$userId', '$filename')");
@@ -24,4 +28,5 @@ class File extends \Core\Model
     {
         return self::getDB()->query("SELECT COUNT(*) FROM files_tbl WHERE id_user = '$userId'")->fetchColumn();
     }
+*/
 }

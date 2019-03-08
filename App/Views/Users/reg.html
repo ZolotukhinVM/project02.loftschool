@@ -2,8 +2,15 @@
 {% block title %}Home{% endblock %}
 {% block body %}
 <h1>Registration</h1>
+{% if errors|length != 0 %}
+{% for error in errors %}
+<ul>
+    <li>{{ error }}</li>
+</ul>
+{% endfor %}
+{% endif %}
 {{ message }}
-<form method="POST" action="/users/reg" enctype="multipart/form-data">
+<form method="POST" action="/sign/up" enctype="multipart/form-data">
     <table>
         <tr>
             <td><label for="login">Login:</label></td>
