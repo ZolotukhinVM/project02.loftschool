@@ -51,7 +51,7 @@ class Users extends Controller
             $user->photo = $newFileName;
             $user->save();
         }
-        $this->render("Users/update.html", ["message" => "User is updated"]);
+        $this->render("Users/update.html", ["data" => UserTable::find($_SESSION['id_user']), "message" => "User is updated"]);
         return true;
     }
 
