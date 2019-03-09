@@ -5,5 +5,5 @@
 <p><strong>User age:</strong> {{ data.age }}</p>
 <p><strong>User comment:</strong> {{ data.comment }}</p>
 <p><strong>User photo:</strong></p>
-<img src="/uploads/{{ data.photo }}">
+<img src="{{ dirProfiles }}{{ data.photo }}">
 {% endblock %}

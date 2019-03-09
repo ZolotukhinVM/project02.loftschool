@@ -1,7 +1,7 @@
 <?php
 require './vendor/autoload.php';
+require './settings.php';
 require './config.php';
-require './Eloquent/config.php';
 
 /**
  * Error and Exception handling

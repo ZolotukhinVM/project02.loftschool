@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Core\Model;
 use Faker\Factory as fake;
 
-class ImportFaker extends \Core\Model
+class ImportFaker extends Model
 {
     public static function startImport()
     {
@@ -26,11 +27,11 @@ class ImportFaker extends \Core\Model
                         "name" => $faker->name,
                         "age" => $faker->numberBetween(5, 100),
                         "comment" => $faker->text,
-                        "photo" => $faker->image("./uploads/", 250, 250, 'cats', false, true, 'Faker')
+                        "photo" => $faker->image(UPLOAD_PROFILES, 250, 250, 'cats', false, true, 'Faker')
                     ];
                     $insertFaker->execute($data);
                 }
-                $result = "Fake data is load! <a href='import/index/?truncate=1'>Truncate table?</a>";
+                $result = "Fake data is load! <a href='/import/index?truncate=1'>Truncate table?</a>";
             }
         }
         return $result;

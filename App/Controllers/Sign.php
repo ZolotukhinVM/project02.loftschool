@@ -61,7 +61,7 @@ class Sign extends Controller
         }
         $file = empty($_FILES["userfile"]) ? null : $_FILES["userfile"];
         $newFileName = MyTools::getNameUploadFile($file["name"]);
-        move_uploaded_file($file["tmp_name"], './uploads/' . $newFileName);
+        move_uploaded_file($file["tmp_name"], UPLOAD_PROFILES . $newFileName);
         $user->photo = $newFileName;
         $user->save();
         $_SESSION["id_user"] = $user->id;

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class File extends \Core\Model
+use Core\Model;
+
+class File extends Model
 {
     public static function getUserFiles($userId)
     {

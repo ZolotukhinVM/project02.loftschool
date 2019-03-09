@@ -20,7 +20,7 @@ class Users extends Controller
 
     public function profileAction()
     {
-        $this->render("Users/profile.html", ["data" => UserTable::find($_SESSION["id_user"])]);
+        $this->render("Users/profile.html", ["data" => UserTable::find($_SESSION["id_user"]), "dirProfiles" => ltrim(UPLOAD_PROFILES, ".")]);
     }
 
     public function showAction()
@@ -47,12 +47,11 @@ class Users extends Controller
         $file = $_FILES["userfile"];
         if (!empty($file["name"])) {
             $newFileName = MyTools::getNameUploadFile($file["name"]);
-            move_uploaded_file($file["tmp_name"], "./uploads/" . $newFileName);
+            move_uploaded_file($file["tmp_name"], UPLOAD_PROFILES . $newFileName);
             $user->photo = $newFileName;
             $user->save();
         }
-        $this->render("Users/update.html", ["data" => UserTable::find($_SESSION['id_user']), "message" => "User is updated"]);
-        return true;
+        return $this->render("Users/update.html", ["data" => UserTable::find($_SESSION['id_user']), "message" => "User is updated"]);
     }
 
     public function logout()
