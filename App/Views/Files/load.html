@@ -4,6 +4,7 @@
 {{ message }}
 <form action="/files/load" method="POST" enctype="multipart/form-data">
     <input type="file" name="userfile" required>
+    <input type="checkbox" name="rotate" value="true">Rotate?
     <input type="submit" value="Load">
 </form>
 

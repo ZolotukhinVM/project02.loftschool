@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use Core\Controller;
+use App\Models\User;
 use App\Tools\MyTools;
-use App\Models\User;
-use App\Models\User;
+use App\Tools\MyImage;
 use GUMP;
 
 class Sign extends Controller
@@ -61,7 +61,7 @@ class Sign extends Controller
         }
         $file = empty($_FILES["userfile"]) ? null : $_FILES["userfile"];
         $newFileName = MyTools::getNameUploadFile($file["name"]);
-        move_uploaded_file($file["tmp_name"], UPLOAD_PROFILES . $newFileName);
+        MyImage::getImage($file["tmp_name"], UPLOAD_PROFILES . $newFileName);
         $user->photo = $newFileName;
         $user->save();
         $_SESSION["id_user"] = $user->id;

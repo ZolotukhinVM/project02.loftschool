@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\Controller;
 use App\Models\User;
 use App\Tools\MyTools;
+use App\Tools\MyImage;
 
 class Users extends Controller
 {
@@ -46,7 +47,7 @@ class Users extends Controller
         $file = $_FILES["userfile"];
         if (!empty($file["name"])) {
             $newFileName = MyTools::getNameUploadFile($file["name"]);
-            move_uploaded_file($file["tmp_name"], UPLOAD_PROFILES . $newFileName);
+            MyImage::getImage($file["tmp_name"], UPLOAD_PROFILES . $newFileName);
             $user->photo = $newFileName;
             $user->save();
         }

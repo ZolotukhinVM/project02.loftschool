@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\Controller;
 use App\Models\File;
 use App\Tools\MyTools;
+use App\Tools\MyImage;
 
 class Files extends Controller
 {
@@ -19,7 +20,8 @@ class Files extends Controller
                 return $this->render("Files/load.html", ["message" => "DB Error"]);
             }
             $newFileName = MyTools::getNameUploadFile($_FILES["userfile"]["name"]);
-            move_uploaded_file($_FILES["userfile"]["tmp_name"], UPLOAD_IMAGES . $newFileName);
+            $rotate = $_POST["rotate"] ?? false;
+            MyImage::getImage($_FILES["userfile"]["tmp_name"], UPLOAD_IMAGES . $newFileName, 500, $rotate);
             $file->file = $newFileName;
             $file->save();
         }
