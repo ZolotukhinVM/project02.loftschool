@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use Core\Controller;
-use App\Models\FileTable;
 use App\Models\File;
 use App\Tools\MyTools;
 
@@ -13,7 +12,7 @@ class Files extends Controller
     public function loadAction()
     {
         if (isset($_FILES["userfile"])) {
-            $file = new FileTable();
+            $file = new File();
             // todo: шедевр пока остался
             $file->id_user = $_SESSION["id_user"];
             if (!$file->save()) {

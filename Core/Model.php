@@ -2,6 +2,30 @@
 
 namespace Core;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+abstract class Model
+{
+    public static function setConnection()
+    {
+        $capsule = new Capsule;
+        $capsule->addConnection([
+            'driver' => 'mysql',
+            'host' => DB_HOST,
+            'database' => DB_NAME,
+            'username' => DB_USER,
+            'password' => DB_PASSWORD,
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+        ]);
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+    }
+}
+
+/*namespace Core;
+
 use PDO;
 
 abstract class Model
@@ -18,4 +42,4 @@ abstract class Model
 
         return $db;
     }
-}
+}*/

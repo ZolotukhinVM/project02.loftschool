@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use Core\Controller;
-use App\Tools\MyTools;
 use App\Models\User;
-use App\Models\UserTable;
+use App\Tools\MyTools;
 
 class Users extends Controller
 {
@@ -20,7 +19,7 @@ class Users extends Controller
 
     public function profileAction()
     {
-        $this->render("Users/profile.html", ["data" => UserTable::find($_SESSION["id_user"]), "dirProfiles" => ltrim(UPLOAD_PROFILES, ".")]);
+        $this->render("Users/profile.html", ["data" => User::find($_SESSION["id_user"]), "dirProfiles" => ltrim(UPLOAD_PROFILES, ".")]);
     }
 
     public function showAction()
@@ -32,9 +31,9 @@ class Users extends Controller
     public function updateAction()
     {
         if (empty($_POST)) {
-            return $this->render("Users/update.html", ["data" => UserTable::find($_SESSION['id_user'])]);
+            return $this->render("Users/update.html", ["data" => User::find($_SESSION['id_user'])]);
         }
-        $user = UserTable::find($_SESSION["id_user"]);
+        $user = User::find($_SESSION["id_user"]);
         if (!empty($_POST["pass"])) {
             $user->password = password_hash($_POST["pass"], PASSWORD_DEFAULT);
         }
@@ -42,7 +41,7 @@ class Users extends Controller
         $user->age = htmlentities(strip_tags($_POST["age"]), ENT_QUOTES);
         $user->comment = htmlentities(strip_tags($_POST["comment"]), ENT_QUOTES);
         if (!$user->save()) {
-            return $this->render("Users/update.html", ["data" => UserTable::find($_SESSION['id_user']), "message" => "DB Error"]);
+            return $this->render("Users/update.html", ["data" => User::find($_SESSION['id_user']), "message" => "DB Error"]);
         }
         $file = $_FILES["userfile"];
         if (!empty($file["name"])) {
@@ -51,7 +50,7 @@ class Users extends Controller
             $user->photo = $newFileName;
             $user->save();
         }
-        return $this->render("Users/update.html", ["data" => UserTable::find($_SESSION['id_user']), "message" => "User is updated"]);
+        return $this->render("Users/update.html", ["data" => User::find($_SESSION['id_user']), "message" => "User is updated"]);
     }
 
     public function logout()

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use Core\Controller;
 use App\Tools\MyTools;
 use App\Models\User;
-use App\Models\UserTable;
+use App\Models\User;
 use GUMP;
 
 class Sign extends Controller
@@ -50,7 +50,7 @@ class Sign extends Controller
             var_dump($result);
             return $this->render("/Users/reg.html", ["data" => $_POST, "message" => "Not valid", "errors" => $result]);
         }
-        $user = new UserTable();
+        $user = new User();
         $user->login = trim(strtolower($_POST["login"]));
         $user->password = password_hash($_POST["pass"], PASSWORD_DEFAULT);
         $user->name = htmlentities(strip_tags($_POST["name"]), ENT_QUOTES);

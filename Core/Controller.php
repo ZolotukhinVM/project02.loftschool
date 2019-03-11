@@ -29,12 +29,18 @@ abstract class Controller
     {
         $this->route_params = $route_params;
         $this->view = new View();
+        $this->db();
     }
 
     protected function render($template, $data = [])
     {
         $this->view->renderTemplate($template, $data);
         return true;
+    }
+
+    protected function db()
+    {
+        Model::setConnection();
     }
 
     protected function redirect($url)
